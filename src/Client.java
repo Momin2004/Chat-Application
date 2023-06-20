@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -13,7 +10,7 @@ public class Client {
     public Client(String host, int port) {
         try {
             socket = new Socket(host, port);
-            System.out.println("Connected to chat server");
+            System.out.println("Connected to server");
 
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
@@ -37,7 +34,7 @@ public class Client {
                     System.out.println(message);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Disconnected from server");
             }
         }
     }
@@ -50,6 +47,7 @@ public class Client {
                 while (true) {
                     String message = scanner.nextLine();
                     writer.println(message);
+                    writer.flush();
                 }
             } finally {
                 scanner.close();

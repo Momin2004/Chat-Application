@@ -16,7 +16,7 @@ public class Server {
     public void start(int port) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Chat server started on port " + port);
+            System.out.println("Server started on port " + port);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -45,6 +45,7 @@ public class Server {
             try {
                 writer = new PrintWriter(clientSocket.getOutputStream(), true);
                 reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                System.out.println("Client " + clientId + " connected");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -58,7 +59,7 @@ public class Server {
                     broadcastMessage(message, clientId);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client " + clientId + " disconnected");
             } finally {
                 clients.remove(this);
                 try {
